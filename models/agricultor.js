@@ -1,4 +1,4 @@
-const db = require('../config/db.config');
+const db = require('../Config/db.config');
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(db.database, db.user, db.password, {
@@ -6,10 +6,10 @@ const sequelize = new Sequelize(db.database, db.user, db.password, {
   dialect: 'mysql',
 });
 
-const Agriculteur = sequelize.define('agriculteur', {
+const Agricultor = sequelize.define('agricultor', {
   id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
   nom: { type: Sequelize.STRING, allowNull: false },
   prenom: { type: Sequelize.STRING, allowNull: false }
 });
 
-module.exports = Agriculteur;
+module.exports = Agricultor;

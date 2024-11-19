@@ -1,4 +1,4 @@
-const Agricultor = require('../models/agricultor');
+const Agriculteur = require('../models/agriculteur.model');
 
 exports.create = (req, res) => {
   if (!req.body.nom || !req.body.prenom) {
@@ -6,12 +6,13 @@ exports.create = (req, res) => {
       message: "Le contenu ne peut pas être vide!"
     });
   }
-  const agricultor = {
+
+  const agriculteur = {
     nom: req.body.nom,
     prenom: req.body.prenom
   };
-  
-  Agricultor.create(agricultor)
+
+  Agriculteur.create(agriculteur)
     .then(data => {
       res.send(data);
     })
@@ -20,11 +21,10 @@ exports.create = (req, res) => {
         message: err.message || "Une erreur s'est produite lors de la création de l'agriculteur."
       });
     });
-  };
-
+};
 
 exports.findAll = (req, res) => {
-  Agricultor.findAll()
+  Agriculteur.findAll()
     .then(data => {
       res.send(data);
     })
@@ -38,7 +38,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Agricultor.findByPk(id)
+  Agriculteur.findByPk(id)
     .then(data => {
       if (!data) {
         return res.status(404).send({
@@ -57,7 +57,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Agricultor.update(req.body, { where: { id: id } })
+  Agriculteur.update(req.body, { where: { id: id } })
     .then(num => {
       if (num == 1) {
         res.send({
@@ -79,7 +79,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Agricultor.destroy({ where: { id: id } })
+  Agriculteur.destroy({ where: { id: id } })
     .then(num => {
       if (num == 1) {
         res.send({
@@ -97,4 +97,3 @@ exports.delete = (req, res) => {
       });
     });
 };
-

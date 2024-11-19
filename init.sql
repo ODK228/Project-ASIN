@@ -1,13 +1,13 @@
-CREATE DATABASE agriculteursDB;
-USE agriculteursDB;
+CREATE DATABASE agricultorsDB;
+USE agricultorsDB;
 
-CREATE TABLE Agriculteurs (
+CREATE TABLE Agricultors (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nom VARCHAR(255) NOT NULL,
   prenom VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE Cultures (
+CREATE TABLE Culturs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nom VARCHAR(255) NOT NULL
 );
@@ -17,15 +17,15 @@ CREATE TABLE Departements (
   nom VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE Terrains (
+CREATE TABLE Area (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  agriculteur_id INT,
-  culture_id INT,
+  agricultor_id INT,
+  cultur_id INT,
   departement_id INT,
-  superficieTotale INT,
-  superficieExploitee INT,
-  benefice DECIMAL(10, 2),
-  FOREIGN KEY (agriculteur_id) REFERENCES Agriculteurs(id),
-  FOREIGN KEY (culture_id) REFERENCES Cultures(id),
+  total_area INT,
+  used_area INT,
+  gain DECIMAL(10, 2),
+  FOREIGN KEY (agricultor_id) REFERENCES Agricultors(id),
+  FOREIGN KEY (cultur_id) REFERENCES Culturs(id),
   FOREIGN KEY (departement_id) REFERENCES Departements(id)
 );
