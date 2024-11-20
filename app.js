@@ -1,21 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const dbConfig = require('./Config/dbconfig');
+const db = require('./Config/dbconfig');
 const app = express();
+const port = 3000;
 
 app.use(bodyParser.json());
+app.use('/api/users', require('./routes/Users'));
+app.use('/api/departments', require('./routes/Departments'));
+app.use('/api/productions', require('./routes/Productions'));
+app.use('/api/type_users', require('./routes/Type_users'));
+app.use('/api/cultures', require('./routes/Culture'));
 
-const agricultorRoutes = require('./routes/agricultor');
-const culturRoutes = require('./routes/cultur');
-const departementRoutes = require('./routes/departement');
-const AreaRoutes = require('./routes/Area');
-
-app.use('/agricultors', agricultorRoutes);
-app.use('/culturs', culturRoutes);
-app.use('/departements', departementRoutes);
-app.use('/Area', AreaRoutes);
-
-const port = 3000;
 app.listen(port, () => {
   console.log(`Serveur démarré sur http://localhost:${port}`);
 });
