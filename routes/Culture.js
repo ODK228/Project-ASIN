@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Controllor_cultur = require('../Controller/Cultur');
+const Controllor_cultur = require('../Controller/Culture');
 
 router.get('/', Controllor_cultur.findAll);
 router.post('/', Controllor_cultur.create);

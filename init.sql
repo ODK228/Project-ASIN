@@ -137,9 +137,6 @@ ALTER TABLE `productions`
   ADD CONSTRAINT `productions_id_departements_foreign` FOREIGN KEY (`id_departements`) REFERENCES `departements` (`id_departements`),
   ADD CONSTRAINT `productions_id_users_foreign` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`);
 
---
--- Contraintes pour la table `users`
---
 ALTER TABLE `users`
   ADD CONSTRAINT `users_id_typeusers_foreign` FOREIGN KEY (`id_typeUsers`) REFERENCES `type_users` (`id_typeUsers`);
 COMMIT;

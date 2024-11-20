@@ -1,5 +1,5 @@
 const db = require('../config/db.config');
-const TypeUser = require('../models/type_users');
+const TypeUser = require('../models/Type_users');
 
 // Create a new type user
 exports.createTypeUser = (req, res) => {

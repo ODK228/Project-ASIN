@@ -1,5 +1,5 @@
 const db = require('../config/db.config');
-const Department = require('../models/departments');
+const Department = require('../models/Departments');
 
 // Create a new department
 exports.createDepartment = (req, res) => {
