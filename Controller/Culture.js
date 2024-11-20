@@ -1,98 +1,70 @@
-const cultur = require('../models/Cultur');
+const db = require('../config/db.config');
+const Culture = require('../models/culture');
 
-exports.create = (req, res) => {
-  if (!req.body.nom) {
-    return res.status(400).send({
-      message: "Le nom de la culture ne peut pas être vide !"
-    });
-  }
-
-  const cultur = {
-    nom: req.body.nom
-  };
-
-  cultur.create(cultur)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || "Une erreur s'est produite lors de la création de la culture."
-      });
-    });
+// Create a new culture
+exports.createCulture = (req, res) => {
+  const newCulture = new Culture(req.body);
+  let sql = 'INSERT INTO cultures SET ?';
+  db.query(sql, newCulture, (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.status(201).json({ id: result.insertId, ...newCulture });
+    }
+  });
 };
 
-exports.findAll = (req, res) => {
-  cultur.findAll()
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || "Une erreur s'est produite lors de la récupération des cultures."
-      });
-    });
+// Get all cultures
+exports.getAllCultures = (req, res) => {
+  let sql = 'SELECT * FROM cultures';
+  db.query(sql, (err, results) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.json(results);
+    }
+  });
 };
 
-exports.findOne = (req, res) => {
-  const id = req.params.id;
-
-  cultur.findByPk(id)
-    .then(data => {
-      if (!data) {
-        return res.status(404).send({
-          message: `Aucune cultur trouvée avec l'ID ${id}.`
-        });
-      }
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || `Une erreur s'est produite lors de la récupération de la culture avec l'ID ${id}.`
-      });
-    });
+// Get a single culture by ID
+exports.getCultureById = (req, res) => {
+  let sql = 'SELECT * FROM cultures WHERE id_cultures = ?';
+  db.query(sql, [req.params.id], (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else if (result.length === 0) {
+      res.status(404).send('Culture not found');
+    } else {
+      res.json(result[0]);
+    }
+  });
 };
 
-exports.update = (req, res) => {
-  const id = req.params.id;
-
-  cultur.update(req.body, { where: { id: id } })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "La cultur a été mise à jour avec succès."
-        });
-      } else {
-        res.send({
-          message: `Impossible de mettre à jour la culture avec l'ID ${id}. Peut-être que la culture n'a pas été trouvée ou que le corps de la requête est vide !`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || `Une erreur s'est produite lors de la mise à jour de la culture avec l'ID ${id}.`
-      });
-    });
+// Update a culture by ID
+exports.updateCulture = (req, res) => {
+  const updatedCulture = new Culture(req.body);
+  let sql = 'UPDATE cultures SET ? WHERE id_cultures = ?';
+  db.query(sql, [updatedCulture, req.params.id], (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.json({ message: 'Culture updated', updatedCulture });
+    }
+  });
 };
 
-exports.delete = (req, res) => {
-  const id = req.params.id;
-
-  cultur.destroy({ where: { id: id } })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "La culture a été supprimée avec succès."
-        });
-      } else {
-        res.send({
-          message: `Impossible de supprimer la culture avec l'ID ${id}. Peut-être que la culture n'a pas été trouvée !`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || `Une erreur s'est produite lors de la suppression de la culture avec l'ID ${id}.`
-      });
-    });
+// Delete a culture by ID
+exports.deleteCulture = (req, res) => {
+  let sql = 'DELETE FROM cultures WHERE id_cultures = ?';
+  db.query(sql, [req.params.id], (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else if (result.affectedRows === 0) {
+      res.status(404).send('Culture not found');
+    } else {
+      res.json({ message: 'Culture deleted' });
+    }
+  });
 };
+
+
