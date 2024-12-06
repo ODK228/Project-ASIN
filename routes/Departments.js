@@ -1,12 +1,12 @@
 
 const express = require('express');
 const router = express.Router();
-const DepartmentsControllers = require('../Controller/Users');
+const DepartementsControllers = require('../Controller/Departments');
 
-router.post('/', DepartmentsControllers.createDepartment);
-router.get('/', DepartmentsControllers.getAllDepartments);
-router.get('/:id', DepartmentsControllers.getDepartmentById);
-router.put('/:id', DepartmentsControllers.updateDepartment);
-router.delete('/:id', DepartmentsControllers.deleteDepartment);
+router.post('/', DepartementsControllers.createDepartement);
+router.get('/', DepartementsControllers.getAllDepartements);
+router.get('/:id', DepartementsControllers.getDepartementById);
+router.put('/:id', DepartementsControllers.updateDepartement);
+router.delete('/:id', DepartementsControllers.deleteDepartement);
 
 module.exports = router;

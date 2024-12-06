@@ -1,11 +1,11 @@
-const db = require('../config/db.config');
-const Department = require('../models/Departments');
+const db = require('../Config/dbconfig');
+const Departement = require('../models/Departments');
 
-// Create a new department
-exports.createDepartment = (req, res) => {
-  const newDepartment = new Department(req.body);
-  let sql = 'INSERT INTO departments SET ?';
-  db.query(sql, newDepartment, (err, result) => {
+// Créer un nouveau département
+exports.createDepartement = (req, res) => {
+  const newDepartement = new Departement(req.body);
+  let sql = 'INSERT INTO departements SET ?';
+  db.query(sql, newDepartement, (err, result) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -14,9 +14,9 @@ exports.createDepartment = (req, res) => {
   });
 };
 
-// Get all departments
-exports.getAllDepartments = (req, res) => {
-  let sql = 'SELECT * FROM departments';
+// Obtenir tous les départements
+exports.getAllDepartements = (req, res) => {
+  let sql = 'SELECT * FROM departements';
   db.query(sql, (err, results) => {
     if (err) {
       res.status(500).send(err.message);
@@ -26,9 +26,9 @@ exports.getAllDepartments = (req, res) => {
   });
 };
 
-// Get a single department by ID
-exports.getDepartmentById = (req, res) => {
-  let sql = 'SELECT * FROM departments WHERE id_departments = ?';
+// Obtenir un département par son ID
+exports.getDepartementById = (req, res) => {
+  let sql = 'SELECT * FROM departements WHERE id_departments = ?';
   db.query(sql, [req.params.id], (err, result) => {
     if (err) {
       res.status(500).send(err.message);
@@ -40,22 +40,22 @@ exports.getDepartmentById = (req, res) => {
   });
 };
 
-// Update a department by ID
-exports.updateDepartment = (req, res) => {
-  const updatedDepartment = new Department(req.body);
-  let sql = 'UPDATE departments SET ? WHERE id_departments = ?';
-  db.query(sql, [updatedDepartment, req.params.id], (err, result) => {
+// Mettre à jour un département
+exports.updateDepartement = (req, res) => {
+  const updatedDepartement = new Departement(req.body);
+  let sql = 'UPDATE departements SET ? WHERE id_departments = ?';
+  db.query(sql, [updatedDepartement, req.params.id], (err, result) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
-      res.json({ message: 'Department updated', updatedDepartment });
+      res.json({ message: 'Department updated', updatedDepartement });
     }
   });
 };
 
-// Delete a department by ID
-exports.deleteDepartment = (req, res) => {
-  let sql = 'DELETE FROM departments WHERE id_departments = ?';
+// Supprimer un département
+exports.deleteDepartement = (req, res) => {
+  let sql = 'DELETE FROM departements WHERE id_departments = ?';
   db.query(sql, [req.params.id], (err, result) => {
     if (err) {
       res.status(500).send(err.message);
@@ -66,4 +66,3 @@ exports.deleteDepartment = (req, res) => {
     }
   });
 };
-

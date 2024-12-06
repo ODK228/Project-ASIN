@@ -3,16 +3,7 @@ const User = require('../models/Users');
 
 // Create a new user
 exports.createUser = (req, res) => {
-  const newUser = {
-    id_users: req.body.id_users,
-    nom: req.body.nom,
-    prenoms: req.body.prenoms,
-    email: req.body.email,
-    numero: req.body.numero,
-    password: req.body.password,
-    id_typeUsers: req.body.id_typeUsers,
-    created: req.body.created
-  };
+  const newUser = new User(req.body);
   let sql = 'INSERT INTO users SET ?';
   db.query(sql, newUser, (err, result) => {
     if (err) {
@@ -51,15 +42,7 @@ exports.getUserById = (req, res) => {
 
 // Update a user by ID
 exports.updateUser = (req, res) => {
-  const updatedUser = {
-    nom: req.body.nom,
-    prenoms: req.body.prenoms,
-    email: req.body.email,
-    numero: req.body.numero,
-    password: req.body.password,
-    id_typeUsers: req.body.id_typeUsers,
-    created: req.body.created
-  };
+  const updatedUser = new User(req.body);
   let sql = 'UPDATE users SET ? WHERE id_users = ?';
   db.query(sql, [updatedUser, req.params.id], (err, result) => {
     if (err) {

@@ -1,4 +1,4 @@
-const db = require('../Config/dbconfig');
+
 
 const User = function(user) {
   this.id_users = user.id_users;

@@ -1,4 +1,4 @@
-const db = require('../config/db.config');
+const db = require('../Config/dbconfig');
 const TypeUser = require('../models/Type_users');
 
 // Create a new type user

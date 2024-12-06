@@ -1,5 +1,5 @@
-const db = require('../config/db.config');
-const Culture = require('../models/culture');
+const db = require('../Config/dbconfig');
+const Culture = require('../models/Culture');
 
 // Create a new culture
 exports.createCulture = (req, res) => {

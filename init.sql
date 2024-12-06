@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 19 nov. 2024 à 22:18
--- Version du serveur : 10.4.32-MariaDB
--- Version de PHP : 8.2.12
+-- Généré le : jeu. 21 nov. 2024 à 17:24
+-- Version du serveur : 10.4.27-MariaDB
+-- Version de PHP : 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `cultures` (
-  `nom` bigint(20) NOT NULL,
-  `id_cultures` varchar(255) NOT NULL
+  `id_cultures` varchar(25) NOT NULL,
+  `nom` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -43,6 +43,15 @@ CREATE TABLE `departements` (
   `nom` varchar(255) DEFAULT NULL,
   `created_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `departements`
+--
+
+INSERT INTO `departements` (`id_departements`, `nom`, `created_at`) VALUES
+('1', 'Departement A', '2023-01-01'),
+('2', 'Departement B', '2023-02-01'),
+('3', 'Departement C', '2023-03-01');
 
 -- --------------------------------------------------------
 
@@ -59,6 +68,15 @@ CREATE TABLE `productions` (
   `created_at` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `productions`
+--
+
+INSERT INTO `productions` (`id_cultures`, `id_users`, `superficie`, `id_productions`, `id_departements`, `created_at`) VALUES
+('1', '1', '100.00', '1', '1', '2023-01-01'),
+('2', '2', '200.00', '2', '2', '2023-02-01'),
+('3', '3', '300.00', '3', '3', '2023-03-01');
+
 -- --------------------------------------------------------
 
 --
@@ -69,6 +87,15 @@ CREATE TABLE `type_users` (
   `id_typeUsers` varchar(255) NOT NULL,
   `type_usersName` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `type_users`
+--
+
+INSERT INTO `type_users` (`id_typeUsers`, `type_usersName`) VALUES
+('1', 'Admin'),
+('2', 'User'),
+('3', 'Guest');
 
 -- --------------------------------------------------------
 
@@ -86,6 +113,15 @@ CREATE TABLE `users` (
   `id_typeUsers` varchar(255) NOT NULL,
   `created` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `users`
+--
+
+INSERT INTO `users` (`id_users`, `nom`, `prenoms`, `email`, `numero`, `password`, `id_typeUsers`, `created`) VALUES
+('1', 'Doe', 'John', 'john.doe@example.com', '1234567890', 'password123', '1', '2023-01-01'),
+('2', 'Smith', 'Jane', 'jane.smith@example.com', '0987654321', 'password456', '2', '2023-02-01'),
+('3', 'Brown', 'Charlie', 'charlie.brown@example.com', '1122334455', 'password789', '3', '2023-03-01');
 
 --
 -- Index pour les tables déchargées
@@ -137,6 +173,9 @@ ALTER TABLE `productions`
   ADD CONSTRAINT `productions_id_departements_foreign` FOREIGN KEY (`id_departements`) REFERENCES `departements` (`id_departements`),
   ADD CONSTRAINT `productions_id_users_foreign` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`);
 
+--
+-- Contraintes pour la table `users`
+--
 ALTER TABLE `users`
   ADD CONSTRAINT `users_id_typeusers_foreign` FOREIGN KEY (`id_typeUsers`) REFERENCES `type_users` (`id_typeUsers`);
 COMMIT;

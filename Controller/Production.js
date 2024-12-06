@@ -1,5 +1,5 @@
-const db = require('../config/db.config');
-const Production = require('../models/production');
+const db = require('../Config/dbconfig');
+const Production = require('../models/Productions');
 
 // Create a new production
 exports.createProduction = (req, res) => {

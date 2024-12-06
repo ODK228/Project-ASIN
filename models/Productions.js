@@ -1,4 +1,4 @@
-const db = require('../Config/dbconfig');
+
 
 const Production = function(production) {
   this.id_productions = production.id_productions;
