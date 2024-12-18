@@ -1,9 +1,22 @@
 const db = require('../Config/dbconfig');
 const Production = require('../models/Productions');
 
+
+// Fonction pour générer un ID unique de 5 caractères
+function generateUniqueId(length) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
 // Create a new production
 exports.createProduction = (req, res) => {
   const newProduction = new Production(req.body);
+  newProduction.id_productions = generateUniqueId(5); // Générer l'ID ici
+  newProduction.created_at = new Date().toISOString().split("T")[0];
   let sql = 'INSERT INTO productions SET ?';
   db.query(sql, newProduction, (err, result) => {
     if (err) {
@@ -43,6 +56,8 @@ exports.getProductionById = (req, res) => {
 // Update a production by ID
 exports.updateProduction = (req, res) => {
   const updatedProduction = new Production(req.body);
+  delete updatedProduction.id_productions;  
+  updatedProduction.created_at = new Date().toISOString().split("T")[0];
   let sql = 'UPDATE productions SET ? WHERE id_productions = ?';
   db.query(sql, [updatedProduction, req.params.id], (err, result) => {
     if (err) {

@@ -1,11 +1,24 @@
 const db = require('../Config/dbconfig');
-const Departement = require('../models/Departments');
+const Department = require('../models/Departments');
+
+
+// Fonction pour générer un ID unique de 5 caractères
+function generateUniqueId(length) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
 
 // Créer un nouveau département
-exports.createDepartement = (req, res) => {
-  const newDepartement = new Departement(req.body);
+exports.createDepartment = (req, res) => {
+  const newDepartment = new Department(req.body);
+  newDepartment.id_departements = generateUniqueId(5);
+  newDepartment.created_at = new Date().toISOString().split("T")[0];
   let sql = 'INSERT INTO departements SET ?';
-  db.query(sql, newDepartement, (err, result) => {
+  db.query(sql, newDepartment, (err, result) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -15,7 +28,7 @@ exports.createDepartement = (req, res) => {
 };
 
 // Obtenir tous les départements
-exports.getAllDepartements = (req, res) => {
+exports.getAllDepartments = (req, res) => {
   let sql = 'SELECT * FROM departements';
   db.query(sql, (err, results) => {
     if (err) {
@@ -27,8 +40,8 @@ exports.getAllDepartements = (req, res) => {
 };
 
 // Obtenir un département par son ID
-exports.getDepartementById = (req, res) => {
-  let sql = 'SELECT * FROM departements WHERE id_departments = ?';
+exports.getDepartmentById = (req, res) => {
+  let sql = 'SELECT * FROM departements WHERE id_departements = ?';
   db.query(sql, [req.params.id], (err, result) => {
     if (err) {
       res.status(500).send(err.message);
@@ -41,21 +54,23 @@ exports.getDepartementById = (req, res) => {
 };
 
 // Mettre à jour un département
-exports.updateDepartement = (req, res) => {
-  const updatedDepartement = new Departement(req.body);
-  let sql = 'UPDATE departements SET ? WHERE id_departments = ?';
-  db.query(sql, [updatedDepartement, req.params.id], (err, result) => {
+exports.updateDepartment = (req, res) => {
+  const updatedDepartment = new Department(req.body);
+  delete updatedDepartment.id_departements;  
+  updatedDepartment.created_at = new Date().toISOString().split("T")[0];
+  let sql = 'UPDATE departements SET ? WHERE id_departements = ?';
+  db.query(sql, [updatedDepartment, req.params.id], (err, result) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
-      res.json({ message: 'Department updated', updatedDepartement });
+      res.json({ message: 'Department updated', updatedDepartment });
     }
   });
 };
 
 // Supprimer un département
-exports.deleteDepartement = (req, res) => {
-  let sql = 'DELETE FROM departements WHERE id_departments = ?';
+exports.deleteDepartment = (req, res) => {
+  let sql = 'DELETE FROM departements WHERE id_departements = ?';
   db.query(sql, [req.params.id], (err, result) => {
     if (err) {
       res.status(500).send(err.message);
